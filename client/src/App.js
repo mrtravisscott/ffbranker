@@ -40,7 +40,7 @@ class App extends React.Component {
     handleLogin = async (formData) => {
       console.log("REGISTERING")
       console.log(formData);
-      const registerLogin = await fetch("/auth/login",{
+      const registerLogin = await fetch("https://cors-anywhere.herokuapp.com/auth/login",{
         method: "POST",
         body: JSON.stringify(formData),
         credentials: "include",
@@ -51,10 +51,10 @@ class App extends React.Component {
       })
       console.log('registerLogin', registerLogin);
       console.log('what is happening', typeof(registerLogin));
-      // const parsedResponse = await registerLogin.json();
-      // console.log(parsedResponse);
-      // if(parsedResponse.status.code === 200){
-      if(registerLogin.status=== 200){
+      const parsedResponse = await registerLogin.json();
+      console.log(parsedResponse);
+      if(parsedResponse.status.code === 200){
+      // if(registerLogin.status=== 200){
         console.log("successful login");
         this.setState({
           loggedIn: true,
