@@ -5,8 +5,7 @@ const cors = require('cors');
 const session = require('express-session')
 const path = require('path');
 require('./db/db');
-app.use(express.static(__dirname));
-app.use(express.static(path.join(__dirname, 'build')));
+app.use(express.static(path.join(__dirname, 'client/build')));
 app.use(session({
     secret: 'keyboard cat',
     resave: false,
@@ -36,9 +35,9 @@ const authController = require('./controllers/authController');
 
 app.use('/draft-rankings', playerController);
 app.use('/auth', authController);
-app.get('/*', function(req, res) {
-    res.sendFile(path.join(__dirname, 'build', 'index.html'));
-});
+// app.get('*', (req, res) => {
+//     res.sendFile(path.join(__dirname+'/client/build/index.html'));
+//   });
 app.listen(process.env.PORT || 9000, () => {
     console.log('listening on port 9000');
 });

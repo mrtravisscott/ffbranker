@@ -154,6 +154,7 @@ updateMyRankings = async() => {
  }
  deletePlayer = async(id, i) => {
     // console.log(formData);
+    console.log('id', id);
      try{
          const NewPlayer = await fetch (`http://localhost:9000/draft-rankings/${id}`, {
              method: "DELETE",
