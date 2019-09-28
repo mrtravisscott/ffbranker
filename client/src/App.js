@@ -50,7 +50,7 @@ class App extends React.Component {
         }
       })
       console.log('registerLogin', registerLogin);
-      console.log('what is happening', await registerLogin.json());
+      console.log('what is happening', typeof(registerLogin));
       const parsedResponse = await registerLogin.json();
       console.log(parsedResponse);
       if(parsedResponse.status.code === 200){
