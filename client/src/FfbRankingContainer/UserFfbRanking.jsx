@@ -81,7 +81,8 @@ createMyRankings = async() => {
             credentials: "include",
             body: JSON.stringify(formData),
             headers: {
-                "Content-Type": "application/json"
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
             }
         })
         const parsedResponse = await NewPlayer.json();
@@ -115,7 +116,8 @@ updateMyRankings = async() => {
              credentials: "include",
              body: JSON.stringify(formData),
              headers: {
-                 "Content-Type": "application/json"
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
              }
          })
          const parsedResponse = await NewPlayer.json();
@@ -138,7 +140,8 @@ updateMyRankings = async() => {
              method: "DELETE",
              credentials: "include",
              headers: {
-                 "Content-Type": "application/json"
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
              }
          })
          const parsedResponse = await NewPlayer.json();
@@ -160,7 +163,8 @@ updateMyRankings = async() => {
              method: "DELETE",
              credentials: "include",
              headers: {
-                 "Content-Type": "application/json"
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
              }
          })
          const parsedResponse = await NewPlayer.json();

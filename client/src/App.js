@@ -22,7 +22,8 @@ class App extends React.Component {
         body: JSON.stringify(formData),
         credentials: "include",
         headers: {
-          "Content-Type": "application/json"
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
         }
       })
       console.log('registerResponse', registerResponse);
@@ -44,7 +45,8 @@ class App extends React.Component {
         body: JSON.stringify(formData),
         credentials: "include",
         headers: {
-          "Content-Type": "application/json"
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
         }
       })
       console.log('registerLogin', registerLogin);
