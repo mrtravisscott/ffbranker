@@ -40,7 +40,7 @@ class App extends React.Component {
     handleLogin = async (formData) => {
       console.log("REGISTERING")
       console.log(formData);
-      const registerLogin = await fetch("https://cors-anywhere.herokuapp.com/auth/login",{
+      const registerLogin = await fetch("/auth/login",{
         method: "POST",
         body: JSON.stringify(formData),
         credentials: "include",
