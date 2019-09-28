@@ -27,7 +27,7 @@ class App extends React.Component {
         }
       })
       console.log('registerResponse', registerResponse);
-      const parsedResponse = await registerResponse.json();
+      // const parsedResponse = await registerResponse.json();
       console.log(parsedResponse);
       if(parsedResponse.status.code === 201){
         console.log("successful registration");
@@ -51,13 +51,14 @@ class App extends React.Component {
       })
       console.log('registerLogin', registerLogin);
       console.log('what is happening', typeof(registerLogin));
-      const parsedResponse = await registerLogin.json();
-      console.log(parsedResponse);
-      if(parsedResponse.status.code === 200){
+      // const parsedResponse = await registerLogin.json();
+      // console.log(parsedResponse);
+      // if(parsedResponse.status.code === 200){
+      if(registerLogin.status=== 200){
         console.log("successful login");
         this.setState({
           loggedIn: true,
-          username: parsedResponse.data.username
+          username: registerLogin.data.username
         })
       }
     }
