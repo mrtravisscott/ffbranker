@@ -27,7 +27,7 @@ class App extends React.Component {
         }
       })
       console.log('registerResponse', registerResponse);
-      // const parsedResponse = await registerResponse.json();
+      const parsedResponse = await registerResponse.json();
       console.log(parsedResponse);
       if(parsedResponse.status.code === 201){
         console.log("successful registration");
