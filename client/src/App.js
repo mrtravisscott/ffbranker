@@ -17,7 +17,7 @@ class App extends React.Component {
     handleRegister = async (formData) => {
       console.log("REGISTERING")
       console.log(formData);
-      const registerResponse = await fetch("http://localhost:9000/auth/register",{
+      const registerResponse = await fetch("/auth/register",{
         method: "POST",
         body: JSON.stringify(formData),
         credentials: "include",
@@ -39,7 +39,7 @@ class App extends React.Component {
     handleLogin = async (formData) => {
       console.log("REGISTERING")
       console.log(formData);
-      const registerLogin = await fetch("http://localhost:9000/auth/login",{
+      const registerLogin = await fetch("/auth/login",{
         method: "POST",
         body: JSON.stringify(formData),
         credentials: "include",
