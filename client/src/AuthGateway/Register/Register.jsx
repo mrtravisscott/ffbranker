@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-
+import '../Login/Login.css';
 class Register extends Component {
     constructor () {
         super();
@@ -22,9 +22,9 @@ class Register extends Component {
     render(){
         return(
             <form onSubmit={this.handleSubmit}>
-                username: <input type="text" name="username" onChange={this.handleChange}/>
-                password: <input type="password" name="password" onChange={this.handleChange}/>
-                <input type="submit" value="Register" />
+              <label>Username:</label>   <input class='input-box' type="text" name="username" onChange={this.handleChange}/>
+                <label>Password: </label><input class='input-box' type="password" name="password" onChange={this.handleChange}/>
+                <input class='login-btn btn-success' type="submit" value="Register" />
             </form>
         )
     }

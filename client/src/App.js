@@ -5,6 +5,8 @@ import FfbRanking from './FfbRankingContainer/FfbRanking';
 import PlayersList from './FfbRankingContainer/PlayersList';
 import Main from './FfbRankingContainer/Main';
 import AuthGateway from './AuthGateway/AuthGateway';
+import { Link } from 'react-router-dom';
+import {Navbar, Nav} from 'react-bootstrap';
 
 class App extends React.Component {
   constructor(){
@@ -17,13 +19,12 @@ class App extends React.Component {
     handleRegister = async (formData) => {
       console.log("REGISTERING")
       console.log(formData);
-      const registerResponse = await fetch("/auth/register",{
+      const registerResponse = await fetch("http://localhost:9000/auth/register",{
         method: "POST",
         body: JSON.stringify(formData),
         credentials: "include",
         headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
+          "Content-Type": "application/json"
         }
       })
       console.log('registerResponse', registerResponse);
@@ -40,17 +41,15 @@ class App extends React.Component {
     handleLogin = async (formData) => {
       console.log("REGISTERING")
       console.log(formData);
-      const registerLogin = await fetch("/auth/login",{
+      const registerLogin = await fetch("http://localhost:9000/auth/login",{
         method: "POST",
         body: JSON.stringify(formData),
         credentials: "include",
         headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
+          "Content-Type": "application/json"
         }
       })
       console.log('registerLogin', registerLogin);
-      console.log('what is happening', typeof(registerLogin));
       const parsedResponse = await registerLogin.json();
       console.log(parsedResponse);
       if(parsedResponse.status.code === 200){
@@ -65,6 +64,18 @@ class App extends React.Component {
     render(){
       return (
         <div className="App">
+                    {
+            this.state.loggedIn ? 
+            <Navbar bg="light" expand="lg">
+            <Navbar.Brand href="#home">Fantasy Football Ranker</Navbar.Brand>
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Collapse id="basic-navbar-nav">
+              <Nav className="mr-auto">
+                <Nav.Link> <Router><Link to={`/my-rankings`}>My current rankings </Link></Router></Nav.Link>
+                <Nav.Link href="#link"><Link to={`/`}>NFL current rankings </Link></Nav.Link>
+              </Nav>
+            </Navbar.Collapse>
+          </Navbar>: <div></div> }
           {
             this.state.loggedIn ?
             <Main /> :

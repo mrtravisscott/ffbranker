@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 
 const PlayerSchema = new mongoose.Schema({
-    displayName: String,
+    Name: String,
     ranking: Number,
-    position: String,
-    team: String,
+    Position: String,
+    Team: String,
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"

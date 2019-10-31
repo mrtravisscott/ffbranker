@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router-dom'
 
-
+import './football.css';
 class UserFfbRanking extends Component {
     constructor() {
-       // console.log('LALALAALLA' , props);
         super();
         this.state = {
             players: [],
@@ -13,7 +12,7 @@ class UserFfbRanking extends Component {
     }
     getPlayers = async() => {
         try{
-            const MyPlayers = await fetch ("/draft-rankings", {
+            const MyPlayers = await fetch ("http://localhost:9000/draft-rankings", {
                 credentials: "include"
             })
             const parsedResponse = await MyPlayers.json();
@@ -24,21 +23,27 @@ class UserFfbRanking extends Component {
                 return parsedResponse.data;
                 } else {
                     const apiKey = "76m3dsya26q8";
-                    const players = await fetch(`https://cors-anywhere.herokuapp.com/https://www.fantasyfootballnerd.com/service/draft-rankings/json/${apiKey}`)
+                    const players = await fetch(`https://api.fantasydata.net/api/nfl/fantasy/json/FantasyPlayersIDP`,
+                    {headers: { "Ocp-Apim-Subscription-Key": 	
+                    '800462222e7440bab7041c02e59edcce'
+                    }})
 
                     console.log('WHAT ARE THE PLAYERS: ', players);
                     this.setState({hasCreated: false});
                     const playersJson = await players.json();
-                    return playersJson.DraftRankings;
+                    return playersJson;
                 }
             } else {
                 const apiKey = "76m3dsya26q8";
-                const players = await fetch(`https://cors-anywhere.herokuapp.com/https://www.fantasyfootballnerd.com/service/draft-rankings/json/${apiKey}`)
+                const players = await fetch(`https://api.fantasydata.net/api/nfl/fantasy/json/FantasyPlayersIDP`,
+                {headers: { "Ocp-Apim-Subscription-Key": 	
+                '800462222e7440bab7041c02e59edcce'
+                }})
 
                 console.log('WHAT ARE THE PLAYERS2: ', players);
                 this.setState({hasCreated: false});
                 const playersJson = await players.json();
-                return playersJson.DraftRankings;
+                return playersJson;
             }
     
         
@@ -71,18 +76,17 @@ createMyRankings = async() => {
    // console.log(formData);
    const dbPlayers = [];
    for (let i = 0; i < this.state.players.length; i++){
-       let formData = {displayName: this.state.players[i].displayName,
-        position: this.state.players[i].position, 
-        team: this.state.players[i].team,
+       let formData = {Name: this.state.players[i].Name,
+        Position: this.state.players[i].Position, 
+        Team: this.state.players[i].Team,
         ranking: i + 1 };
     try{
-        const NewPlayer = await fetch ("/draft-rankings", {
+        const NewPlayer = await fetch ("http://localhost:9000/draft-rankings", {
             method: "POST",
             credentials: "include",
             body: JSON.stringify(formData),
             headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
+                "Content-Type": "application/json"
             }
         })
         const parsedResponse = await NewPlayer.json();
@@ -105,19 +109,18 @@ createMyRankings = async() => {
 updateMyRankings = async() => {
     // console.log(formData);
     for (let i = 0; i < this.state.players.length; i++){
-        let formData = {displayName: this.state.players[i].displayName,
-         position: this.state.players[i].position, 
-         team: this.state.players[i].team,
+        let formData = {Name: this.state.players[i].Name,
+         Position: this.state.players[i].Position, 
+         Team: this.state.players[i].Team,
          ranking: i + 1 };
          console.log('formData', formData);
      try{
-         const NewPlayer = await fetch (`/draft-rankings/${this.state.players[i]._id}`, {
+         const NewPlayer = await fetch (`http://localhost:9000/draft-rankings/${this.state.players[i]._id}`, {
              method: "PUT",
              credentials: "include",
              body: JSON.stringify(formData),
              headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
+                 "Content-Type": "application/json"
              }
          })
          const parsedResponse = await NewPlayer.json();
@@ -136,12 +139,11 @@ updateMyRankings = async() => {
  deleteMyRankings = async() => {
     // console.log(formData);
      try{
-         const NewPlayer = await fetch (`/draft-rankings/`, {
+         const NewPlayer = await fetch (`http://localhost:9000/draft-rankings/`, {
              method: "DELETE",
              credentials: "include",
              headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
+                 "Content-Type": "application/json"
              }
          })
          const parsedResponse = await NewPlayer.json();
@@ -157,14 +159,12 @@ updateMyRankings = async() => {
  }
  deletePlayer = async(id, i) => {
     // console.log(formData);
-    console.log('id', id);
      try{
-         const NewPlayer = await fetch (`/draft-rankings/${id}`, {
+         const NewPlayer = await fetch (`http://localhost:9000/draft-rankings/${id}`, {
              method: "DELETE",
              credentials: "include",
              headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
+                 "Content-Type": "application/json"
              }
          })
          const parsedResponse = await NewPlayer.json();
@@ -181,28 +181,38 @@ updateMyRankings = async() => {
     componentDidMount(){
       this.getPlayers().then((data) => { 
             console.log('data', data );
-            data.sort(function(a,b){
-                return a.ranking - b.ranking;
-            })
+            // data.sort(function(a,b){
+            //     if(a.ranking){
+            //     return a.ranking - b.ranking;
+            //     } else {
+            //         return 0;
+            //     }
+                
+            // })
             this.setState({players: data.slice(0,200)})
             })
        
     }
     render() {
         let players =  this.state.players.map( (d,i) => {
-            return <li
+            return <tr
               key={i}
              
             >
-             <button onClick={() => this.flipPlayerUp(i)}>Move Up</button>
-             <button onClick={() => this.flipPlayerDown(i)}>Move Down</button>
-             <button onClick={() => this.deletePlayer(d._id, i)}>Hes outta here</button>
-             {i+1} {d.displayName} {d.position} {d.team}
-            </li>
+
+             <td>{i+1}</td>  
+             <td><Link to={`/${d.Position}/${d.Name}`}> {d.Name}</Link> </td>
+             <td>{d.Position}</td> 
+             <td>{d.Team}</td>
+             <td><button onClick={() => this.flipPlayerUp(i)}>Move Up</button></td>
+             <td><button onClick={() => this.flipPlayerDown(i)}>Move Down</button></td>
+             <td><button onClick={() => this.deletePlayer(d._id, i)}>Remove Player</button></td>
+            </tr>
           })
       return (
         <div>
-            <Link to={'/'}> Go To NFL Rankings </Link>
+            <h1>MY NFL BASED RANKINGS</h1>
+            <tr><th>Ranking</th><th>Name</th><th>Team</th><th>Position</th></tr>
             {players}
             {  
                 !this.state.hasCreated ? 
