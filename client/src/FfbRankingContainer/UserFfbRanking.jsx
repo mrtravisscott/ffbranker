@@ -12,7 +12,7 @@ class UserFfbRanking extends Component {
     }
     getPlayers = async() => {
         try{
-            const MyPlayers = await fetch ("http://localhost:9000/draft-rankings", {
+            const MyPlayers = await fetch ("/draft-rankings", {
                 credentials: "include"
             })
             const parsedResponse = await MyPlayers.json();
@@ -81,7 +81,7 @@ createMyRankings = async() => {
         Team: this.state.players[i].Team,
         ranking: i + 1 };
     try{
-        const NewPlayer = await fetch ("http://localhost:9000/draft-rankings", {
+        const NewPlayer = await fetch ("/draft-rankings", {
             method: "POST",
             credentials: "include",
             body: JSON.stringify(formData),
@@ -115,7 +115,7 @@ updateMyRankings = async() => {
          ranking: i + 1 };
          console.log('formData', formData);
      try{
-         const NewPlayer = await fetch (`http://localhost:9000/draft-rankings/${this.state.players[i]._id}`, {
+         const NewPlayer = await fetch (`/draft-rankings/${this.state.players[i]._id}`, {
              method: "PUT",
              credentials: "include",
              body: JSON.stringify(formData),
@@ -139,7 +139,7 @@ updateMyRankings = async() => {
  deleteMyRankings = async() => {
     // console.log(formData);
      try{
-         const NewPlayer = await fetch (`http://localhost:9000/draft-rankings/`, {
+         const NewPlayer = await fetch (`/draft-rankings/`, {
              method: "DELETE",
              credentials: "include",
              headers: {
@@ -160,7 +160,7 @@ updateMyRankings = async() => {
  deletePlayer = async(id, i) => {
     // console.log(formData);
      try{
-         const NewPlayer = await fetch (`http://localhost:9000/draft-rankings/${id}`, {
+         const NewPlayer = await fetch (`/draft-rankings/${id}`, {
              method: "DELETE",
              credentials: "include",
              headers: {
