@@ -71,7 +71,7 @@ class App extends React.Component {
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="mr-auto">
-                <Nav.Link> <Router><Link to={`/my-rankings`}>My current rankings </Link></Router></Nav.Link>
+                <Nav.Link> <Link to={`/my-rankings`}>My current rankings </Link></Nav.Link>
                 <Nav.Link href="#link"><Link to={`/`}>NFL current rankings </Link></Nav.Link>
               </Nav>
             </Navbar.Collapse>
