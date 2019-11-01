@@ -7,7 +7,9 @@ class UserFfbRanking extends Component {
         super();
         this.state = {
             players: [],
-            hasCreated: false
+            // updatedPlayers: [],
+            hasCreated: false,
+            filter: 'ALL'
         }
     }
     getPlayers = async() => {
@@ -72,6 +74,39 @@ flipPlayerDown(i){
         this.setState({players: players});
     }
 }
+addToTeam = async(name ,position, team, ranking) => {
+    // console.log(formData);
+
+        let formData = {Name: name,
+         Position: position, 
+         Team: team,
+         ranking: ranking };
+     try{
+         const NewPlayer = await fetch ("/my-team", {
+             method: "POST",
+             credentials: "include",
+             body: JSON.stringify(formData),
+             headers: {
+                 "Content-Type": "application/json"
+             }
+         })
+         const parsedResponse = await NewPlayer.json();
+         if(parsedResponse.status.code ===201){
+             this.setState({hasCreated: true});
+           //  this.setState({players: [...this.state.players, parsedResponse.data]})
+  
+         }
+     }catch(err){
+         console.log('err', err)
+     }
+    
+ 
+     
+ 
+     // this.setState({players: dbPlayers});
+ 
+ }
+                // if(parsedResponse.data.length){
 createMyRankings = async() => {
    // console.log(formData);
    const dbPlayers = [];
@@ -108,6 +143,7 @@ createMyRankings = async() => {
 }
 updateMyRankings = async() => {
     // console.log(formData);
+    let updatedPlayerList = [];
     for (let i = 0; i < this.state.players.length; i++){
         let formData = {Name: this.state.players[i].Name,
          Position: this.state.players[i].Position, 
@@ -125,15 +161,19 @@ updateMyRankings = async() => {
          })
          const parsedResponse = await NewPlayer.json();
          if(parsedResponse.status.code ===201){
-           //  this.setState({players: [...this.state.players, parsedResponse.data]})
+             updatedPlayerList.push(parsedResponse.data)
+           // this.setState({updatedPlayers: [...this.state.players, parsedResponse.data]})
   
          }
-     }catch(err){
-         console.log('err', err)
      }
+         catch(err){
+         console.log('err', err)
+     } 
     
  
      }
+     this.setState({players: updatedPlayerList})
+
  
  }
  deleteMyRankings = async() => {
@@ -181,38 +221,72 @@ updateMyRankings = async() => {
     componentDidMount(){
       this.getPlayers().then((data) => { 
             console.log('data', data );
-            // data.sort(function(a,b){
-            //     if(a.ranking){
-            //     return a.ranking - b.ranking;
-            //     } else {
-            //         return 0;
-            //     }
-                
-            // })
+            if(data[0].ranking){
+                data.sort(function(a,b){
+                    if(a.ranking){
+                    return a.ranking - b.ranking;
+                    } else {
+                        return 0;
+                    }
+                    
+                })
+            }
+         
             this.setState({players: data.slice(0,200)})
             })
        
     }
+    setFilter(filter){
+        console.log('i happen', filter)
+        this.setState({filter: filter})
+      }
     render() {
-        let players =  this.state.players.map( (d,i) => {
+        let filterPlayers = this.state.players.filter((player) => {
+            console.log('i run')
+            if(this.state.filter === 'ALL'){
+              return true;
+            } else {
+              if(this.state.filter === player.Position){
+                return true;
+              }
+              else {
+                return false;
+              }
+            }
+          })
+        let players =  filterPlayers.map( (d,i) => {
             return <tr
               key={i}
              
             >
-
-             <td>{i+1}</td>  
+            {d.ranking ? <td>{d.ranking}</td> : <td> {i+1}</td>}
+            
              <td><Link to={`/${d.Position}/${d.Name}`}> {d.Name}</Link> </td>
              <td>{d.Position}</td> 
              <td>{d.Team}</td>
              <td><button onClick={() => this.flipPlayerUp(i)}>Move Up</button></td>
              <td><button onClick={() => this.flipPlayerDown(i)}>Move Down</button></td>
              <td><button onClick={() => this.deletePlayer(d._id, i)}>Remove Player</button></td>
+             <td><button onClick={() => this.addToTeam(d.Name, d.Position, d.Team, i+1)}>Add Player To Team</button></td>
             </tr>
           })
       return (
         <div>
             <h1>MY NFL BASED RANKINGS</h1>
-            <tr><th>Ranking</th><th>Name</th><th>Team</th><th>Position</th></tr>
+            <h3>Filter By:</h3>
+            <button onClick={() => this.setFilter('ALL')}>ALL</button>
+            <button onClick={() => this.setFilter('QB')}>QB</button>
+            <button onClick={() => this.setFilter('RB')}>RB</button>
+            <button onClick={() => this.setFilter('WR')}>WR</button>
+            <button onClick={() => this.setFilter('TE')}>TE</button>
+            <button onClick={() => this.setFilter('DEF')}>DEF</button>
+            <button onClick={() => this.setFilter('K')}>K</button>
+            {  
+                !this.state.hasCreated ? 
+                <button onClick={() => this.createMyRankings()}> Create List</button> :
+                <div> <button onClick={() => this.updateMyRankings()}> Update List</button> <button onClick={() => this.deleteMyRankings()}> Delete List</button> </div>
+            }
+            <tr><th>Ranking</th><th>Name</th><th>Position</th><th>Team</th></tr>
             {players}
             {  
                 !this.state.hasCreated ? 

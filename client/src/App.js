@@ -73,6 +73,7 @@ class App extends React.Component {
               <Nav className="mr-auto">
                 <Nav.Link> <Link to={`/my-rankings`}>My current rankings </Link></Nav.Link>
                 <Nav.Link href="#link"><Link to={`/`}>NFL current rankings </Link></Nav.Link>
+                <Nav.Link href="#link"><Link to={`/my-team`}>My NFL team </Link></Nav.Link>
               </Nav>
             </Navbar.Collapse>
           </Navbar>: <div></div> }

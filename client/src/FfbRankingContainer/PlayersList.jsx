@@ -8,7 +8,8 @@ class PlayersList extends Component {
     constructor() {
         super();
         this.state = {
-            players: []
+            players: [],
+            filter: 'ALL'
         }
     }
     getPlayers = async() => {
@@ -59,15 +60,30 @@ class PlayersList extends Component {
             })
        
     }
-
+    setFilter(filter){
+      console.log('i happen', filter)
+      this.setState({filter: filter})
+    }
     render() {
-      console.log('iam?', this.state.players)
+      console.log('iam?', this.state.players, this.state.filter)
       // let header = Object.keys(this.state.players[0])
       // let headers = header.map((key, index) => {
       //    return <th key={index}>{key.toUpperCase()}</th>
       // })
-
-        let players =  this.state.players.map( (d,i) => {
+        let filterPlayers = this.state.players.filter((player) => {
+          console.log('i run')
+          if(this.state.filter === 'ALL'){
+            return true;
+          } else {
+            if(this.state.filter === player.Position){
+              return true;
+            }
+            else {
+              return false;
+            }
+          }
+        })
+        let players =  filterPlayers.map( (d,i) => {
           const imageSty = {height: '100px', width: '100px'};
           let logo;
           if(d.Team){
@@ -92,6 +108,14 @@ class PlayersList extends Component {
       
            </div>
             <h1>CURRENT NFL BASED RANKINGS</h1>
+            <h3>Filter By:</h3>
+            <button onClick={() => this.setFilter('ALL')}>ALL</button>
+            <button onClick={() => this.setFilter('QB')}>QB</button>
+            <button onClick={() => this.setFilter('RB')}>RB</button>
+            <button onClick={() => this.setFilter('WR')}>WR</button>
+            <button onClick={() => this.setFilter('TE')}>TE</button>
+            <button onClick={() => this.setFilter('DEF')}>DEF</button>
+            <button onClick={() => this.setFilter('K')}>K</button>
             <tr><th>Ranking</th><th>Name</th><th>Team</th><th>Position</th><th>Team Logo</th>
             </tr>
             {players}

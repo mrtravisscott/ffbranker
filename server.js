@@ -30,9 +30,10 @@ app.use((req, res, next) => {
 
 // Require the controller after the middleware
 const playerController = require('./controllers/playerController');
+const myPlayersController = require('./controllers/myPlayersController');
 const authController = require('./controllers/authController');
 // const authController = require('./controllers/authController');
-
+app.use('/my-team', myPlayersController);
 app.use('/draft-rankings', playerController);
 app.use('/auth', authController);
 // app.get('*', (req, res) => {
