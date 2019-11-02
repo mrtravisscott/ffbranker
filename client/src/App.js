@@ -17,8 +17,6 @@ class App extends React.Component {
     }
     }
     handleRegister = async (formData) => {
-      console.log("REGISTERING")
-      console.log(formData);
       const registerResponse = await fetch("/auth/register",{
         method: "POST",
         body: JSON.stringify(formData),
@@ -27,7 +25,6 @@ class App extends React.Component {
           "Content-Type": "application/json"
         }
       })
-      console.log('registerResponse', registerResponse);
       const parsedResponse = await registerResponse.json();
       console.log(parsedResponse);
       if(parsedResponse.status.code === 201){
@@ -39,8 +36,6 @@ class App extends React.Component {
       }
     }
     handleLogin = async (formData) => {
-      console.log("REGISTERING")
-      console.log(formData);
       const registerLogin = await fetch("/auth/login",{
         method: "POST",
         body: JSON.stringify(formData),
@@ -49,9 +44,7 @@ class App extends React.Component {
           "Content-Type": "application/json"
         }
       })
-      console.log('registerLogin', registerLogin);
       const parsedResponse = await registerLogin.json();
-      console.log(parsedResponse);
       if(parsedResponse.status.code === 200){
         console.log("successful login");
         this.setState({
@@ -66,14 +59,14 @@ class App extends React.Component {
         <div className="App">
                     {
             this.state.loggedIn ? 
-            <Navbar bg="light" expand="lg">
-            <Navbar.Brand href="#home">Fantasy Football Ranker</Navbar.Brand>
+            <Navbar class='my-font' bg="light" expand="lg">
+            <Navbar.Brand href="#home" class='my-font' >Fantasy Football Ranker</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="mr-auto">
-                <Nav.Link> <Link to={`/my-rankings`}>My current rankings </Link></Nav.Link>
-                <Nav.Link href="#link"><Link to={`/`}>NFL current rankings </Link></Nav.Link>
-                <Nav.Link href="#link"><Link to={`/my-team`}>My NFL team </Link></Nav.Link>
+                <Nav.Link> < Link to={`/my-rankings`} class='grey-text'>My current rankings </Link></Nav.Link>
+                <Nav.Link href="#link"><Link to={`/`} class='grey-text'>NFL current rankings </Link></Nav.Link>
+                <Nav.Link href="#link"><Link to={`/my-team`} class='grey-text'>My NFL team </Link></Nav.Link>
               </Nav>
             </Navbar.Collapse>
           </Navbar>: <div></div> }

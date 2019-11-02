@@ -1,6 +1,9 @@
 @import url('https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css');
+@import url('https://fonts.googleapis.com/css?family=Staatliches&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Ropa+Sans&display=swap');
 .App {
     text-align: center;
+    font-family: 'Ropa Sans', sans-serif;
 }
 
 .App-logo {
@@ -22,6 +25,23 @@
 
 .App-link {
     color: #61dafb;
+}
+
+.navbar-brand {
+    font-family: 'Staatliches', cursive;
+}
+
+.my-font {
+    font-family: 'Staatliches', cursive;
+}
+
+.grey-text {
+    color: #8c8c8b;
+    font-family: 'Staatliches', cursive;
+}
+
+.green-button {
+    background: #37592b;
 }
 
 @keyframes App-logo-spin {

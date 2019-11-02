@@ -16,7 +16,6 @@ class MyTeam extends Component {
                 credentials: "include"
             })
             const parsedResponse = await MyPlayers.json();
-            console.log('get players db', parsedResponse);
             this.setState({hasCreated: true});
             return parsedResponse.data;   
       } catch (err) {
@@ -26,7 +25,6 @@ class MyTeam extends Component {
 }
 
 createMyRankings = async() => {
-   // console.log(formData);
    const dbPlayers = [];
    for (let i = 0; i < this.state.players.length; i++){
        let formData = {Name: this.state.players[i].Name,
@@ -61,7 +59,6 @@ createMyRankings = async() => {
 }
 
  deletePlayer = async(id, i) => {
-    // console.log(formData);
      try{
          const NewPlayer = await fetch (`/my-team/${id}`, {
              method: "DELETE",
@@ -71,9 +68,7 @@ createMyRankings = async() => {
              }
          })
          const parsedResponse = await NewPlayer.json();
-         console.log('pr', parsedResponse)
          if(parsedResponse.status.code ===200){
-             console.log('uhh i did it', parsedResponse.data);
              this.componentDidMount();
          }
      }catch(err){
@@ -84,14 +79,6 @@ createMyRankings = async() => {
     componentDidMount(){
       this.getPlayers().then((data) => { 
             console.log('data', data );
-            // data.sort(function(a,b){
-            //     if(a.ranking){
-            //     return a.ranking - b.ranking;
-            //     } else {
-            //         return 0;
-            //     }
-                
-            // })
             this.setState({players: data})
             })
        

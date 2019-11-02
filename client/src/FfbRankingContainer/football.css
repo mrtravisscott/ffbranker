@@ -5,3 +5,19 @@ li {
 .center-right {
     text-align: left;
 }
+
+.green-button {
+    background: #37592b;
+    color: whitesmoke;
+}
+
+.red-button {
+    background: #750b0b;
+    color: whitesmoke;
+}
+
+.blue-button {
+    background: #59a4b3;
+    margin: 0px 0px 10px 4px;
+    padding: 8px 10px 8px 10px;
+}

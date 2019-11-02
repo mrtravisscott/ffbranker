@@ -15,9 +15,6 @@ class PlayersProjections extends Component {
     
             const apiKey = "76m3dsya26q8";
            const players = await fetch(`https://cors-anywhere.herokuapp.com/https://www.fantasyfootballnerd.com/service/draft-rankings/json/${apiKey}`)
-           
-         console.log('WHAT ARE THE PLAYERS: ', players);
-
          const playersJson = await players.json();
          return playersJson;
    
@@ -28,18 +25,12 @@ class PlayersProjections extends Component {
     }
     getWeeklyProjections= async() => {
       try {
-        const position = this.props.match.params.position;  
-        const apiKey = "76m3dsya26q8";
         const season = '2018REG';
-       // https://api.fantasydata.net/api/nfl/fantasy/json/PlayerSeasonProjectionStats/{season}
         const players = await fetch(`https://api.fantasydata.net/api/nfl/fantasy/json/PlayerSeasonProjectionStats/${season}`,     {headers: { "Ocp-Apim-Subscription-Key": 	
         '800462222e7440bab7041c02e59edcce'
         }})
         
-        // const players = await fetch(`https://cors-anywhere.herokuapp.com/https://www.fantasyfootballnerd.com/service/weekly-projections/json/${apiKey}/${position}/8`)
-        console.log('WHAT ARE THE PLAYERS: ', players);
         const playersJson = await players.json();
-        console.log('WHAAYERS: ', playersJson);
         return playersJson;
   
       } catch (err) {
@@ -49,25 +40,16 @@ class PlayersProjections extends Component {
     }
     getWeeklyProjectionsByWeek= async(weekNumber) => {
       try {
-        const position = this.props.match.params.position;  
-        const apiKey = "76m3dsya26q8";
         const season = '2018REG';
-       // https://api.fantasydata.net/api/nfl/fantasy/json/PlayerSeasonProjectionStats/{season}
         const players = await fetch(`https://api.fantasydata.net/api/nfl/fantasy/json/PlayerGameProjectionStatsByWeek/${season}/${weekNumber}`,     {headers: { "Ocp-Apim-Subscription-Key": 	
         '800462222e7440bab7041c02e59edcce'
         }})
         
-        // const players = await fetch(`https://cors-anywhere.herokuapp.com/https://www.fantasyfootballnerd.com/service/weekly-projections/json/${apiKey}/${position}/8`)
-        console.log('WHAT ARE THE PLAYERS: ', players);
         const playersJson = await players.json();
-        console.log('WHAAYERS: ', playersJson);
         const displayName = this.props.match.params.displayname;
-        console.log('dn', displayName)
         for (let i = 0; i < playersJson.length; i++){
             if(displayName === playersJson[i].Name){
-                console.log('This him!', playersJson[i]);
                 this.setState({player: playersJson[i]})
-                console.log('THE PROJECTION PLAYER: ', this.state.player)
             }
         }
         return playersJson;
@@ -80,16 +62,10 @@ class PlayersProjections extends Component {
     
     componentDidMount(){
       this.getWeeklyProjections().then((data) => { 
-            console.log('data', data );
-            console.log('data', data );
-            console.log(this.props.match.params)
             const displayName = this.props.match.params.displayname;
-            console.log('dn', displayName)
             for (let i = 0; i < data.length; i++){
                 if(displayName === data[i].Name){
-                    console.log('This him!', data[i]);
                     this.setState({player: data[i]})
-                    console.log('THE PROJECTION PLAYER: ', this.state.player)
                 }
             }
     //         // data.DraftRankings.sort(function(a,b){
